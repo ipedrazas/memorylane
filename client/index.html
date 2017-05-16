@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>My App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <body class="bg-washed-blue pa4"> 
+    <h1 class="f1">Test App</h1>
+    <h2 class="f2">Learning is tough</h2>
+    <div id="app">
+        {{ message }}
+    </div>
+    <div class="fl w-10 bg-red">&nbsp;</div>
+    <div id="mylistofthings" class="fl w-40">
+        <ul>
+            <li v-for="thing in mythings">
+                {{ thing.name }} - {{ thing.location }}
+            </li>
+        </ul>
+    </div>
+    <div id="events" class="fl w-50">
+        <ul>
+            <li v-for="event in events">
+                {{ event.info.event }} - {{ event.info.location }}, {{ event.info.timestamp }}
+            </li>
+        </ul>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="assets/js/app.js"></script>
+  <script src='assets/js/vue-fulcalendar.min.js'>
+</html>

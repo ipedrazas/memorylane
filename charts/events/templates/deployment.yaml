@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-proxy
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        volumeMounts:
+          - name: config-nginx
+            mountPath: /etc/nginx/conf.d
+      - name: {{ .Chart.Name }}-api
+        image: "{{ .Values.api.repository }}:{{ .Values.api.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.db.release }}-postgresql
+                key: postgres-password
+          - name: USER
+            value: {{ .Values.db.user }}
+          - name: DB
+            value: {{ .Values.db.name }}
+          - name: HOST
+            value: {{ .Values.db.release }}-postgresql
+
+        ports:
+        - containerPort: {{ .Values.api.service.internalPort }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.api.service.internalPort }}
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.api.service.internalPort }}
+          initialDelaySeconds: 20
+          periodSeconds: 30
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+        - name: config-nginx
+          configMap:
+            name: {{ template "fullname" . }}
+            items:
+            - key: nginx.conf
+              path: default.conf
