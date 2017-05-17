@@ -1,3 +1,5 @@
+
+
 CREATE TABLE events (
  ID serial NOT NULL PRIMARY KEY,
  info json NOT NULL

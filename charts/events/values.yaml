@@ -14,7 +14,6 @@ service:
 
 api:
   repository: quay.io/ipedrazas/events-api
-  tag: latest
   pullPolicy: Always
   service:
     name: http5000
@@ -22,9 +21,12 @@ api:
     externalPort: 5000
     internalPort: 5000
 db:
-  release: xxx
   user: postgres
   name: events
+  migration: false
+  job:
+    repository: quay.io/ipedrazas/events-migration
+
 
 resources:
   limits:

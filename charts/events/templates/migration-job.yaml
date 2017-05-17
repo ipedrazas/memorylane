@@ -1,0 +1,43 @@
+{{ if .Values.db.migration }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "fullname" . }}-{{ template "jobid" }}
+  labels:
+    app: {{ template "fullname" . }}
+spec:  
+  template:
+    metadata:
+      name: {{ template "fullname" . }}
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: create-db
+        image: "{{ .Values.db.job.repository }}:{{ .Values.image.tag }}"
+        command:
+          - sh
+          - -c
+          - 'psql -h $POSTGRES_HOST -U $PGUSER -c "CREATE DATABASE events;" &&  psql -h $POSTGRES_HOST -U $PGUSER events < /events.sql'          
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "{{.Release.Name}}-postgresql"
+                key: postgres-password
+          - name: PGUSER
+            value: {{ .Values.db.user }}
+          - name: DB
+            value: {{ .Values.db.name }}
+          - name: POSTGRES_HOST
+            value: "{{.Release.Name}}-postgresql"
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "pg_isready -h $POSTGRES_HOST -U $PGUSER -p 5432 -d postgres"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+{{ end }}
