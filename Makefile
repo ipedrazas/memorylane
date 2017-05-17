@@ -16,6 +16,10 @@ push:
 	docker push $(NS)/$(REPO):$(VERSION)
 	docker push $(NS)/$(REPOPROXY):$(VERSION)
 
+init-release: 
+	helm init
+	helm dependency update ./charts/events
+
 release: build push
 	helm upgrade --install $(RELEASE) charts/events --debug --set image.tag=$(VERSION),api.tag=$(VERSION),db.release=wonderful-lemur
 
