@@ -48,3 +48,13 @@ var listOfEvents = new Vue({
         }
     }
 })
+
+
+// $.ajax({
+//     url: 'http://127.0.0.1:5000/api/saveannotation',
+//     type: 'POST',
+//     contentType: 'application/json',
+//     data: JSON.stringify({'sess_id' : $('#sessionid_area').val(),
+//         'annotations': JSON.parse(annotations)}),
+//     success: function(data) { alert(data.status); }
+// });
