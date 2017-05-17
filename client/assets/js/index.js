@@ -15,6 +15,9 @@ var demoEvents = [
     }
 ]
 
+$.get( eventsURL, function( data ) {
+                demoEvents = data.results;
+            });
 
 Vue.component('full-calendar', VueFullcalendar)
 
