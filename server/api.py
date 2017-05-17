@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSON
@@ -60,6 +60,31 @@ def api():
 def list_events():
     events = Event.query.all()
     return jsonify(results=[e.serialize() for e in events])
+
+
+@app.route('/api/hello/', methods=['POST'])
+def hello():
+    name=request.form['yourname']
+    email=request.form['youremail']
+    return ""
+
+
+@app.route('/api/articles/<articleid>')
+def api_article(articleid):
+    return 'You are reading ' + articleid
+
+
+@app.route('/api/messages', methods = ['POST'])
+def api_message():
+# -> % curl -H 'Content-Type: application/json' -X POST -d '{"name":"Ivan"}' http://192.168.64.30:32679/api/messages
+    if request.headers['Content-Type'] == 'application/json':
+        # return "JSON Message: " + json.dumps(request.json)
+        event = Event(info=request.json)
+        db.session.add(event)
+        db.session.commit()
+        return jsonify(event=event.serialize())
+    else:
+        return "415 Unsupported Media Type ;)"
 
 
 if __name__ == "__main__":

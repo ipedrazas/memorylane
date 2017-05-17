@@ -1,10 +1,6 @@
 FROM python:3.6.1-alpine
 MAINTAINER Ivan Pedrazas <ipedrazas@gmail.com>
 
-# RUN apk add --update bash curl build-deps gcc python3-dev musl-dev && \
-#         apk add postgresql-dev && \
-#         rm -rf /var/cache/apk/*
-
 RUN apk update \
   && apk add --virtual build-deps gcc python3-dev musl-dev \
   && apk add postgresql-dev \

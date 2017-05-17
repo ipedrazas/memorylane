@@ -33,7 +33,7 @@ release: build push
 # 	{{ else }}
 # 	postgres-password: {{ randAlphaNum 10 | b64enc | quote }}
 # 	{{ end }}
-	helm upgrade --install $(RELEASE) charts/events --debug --set image.tag=$(VERSION),postgresPassword=$(PGPASSWORD)
+	helm upgrade --install $(RELEASE) charts/events --debug --set image.tag=$(VERSION),postgresql.postgresPassword=$(PGPASSWORD)
 
 
 default: build
