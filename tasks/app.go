@@ -33,8 +33,8 @@ func (a *App) Initialize(user, password, dbname, host string) {
 	a.initializeRoutes()
 }
 
-// Run starts the app and serves on the specified addr
-func (a *App) Run(addr string) {
+// Run starts the app and serves on he port 8000
+func (a *App) Run() {
 	log.Fatal(http.ListenAndServe(":8000", a.Router))
 }
 
