@@ -1,0 +1,18 @@
+debug: true
+pipeline:
+  docker:
+    image: plugins/docker
+    repo: quay.io/ipedrazas/events-web
+    tags: latest
+    registry: quay.io
+    email: "info@info.com"
+    debug: true
+    secrets: [ docker_username, docker_password ]
+
+  # tests:
+  #   environment:
+  #       - DOCKER_API_VERSION=1.24
+  #   image: ubuntu
+  #   commands:
+  #     - export
+  #     - echo "hi"
