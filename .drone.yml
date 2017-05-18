@@ -1,15 +1,35 @@
 debug: true
 pipeline:
+  # build_docker_image:
+  #   image: 'docker:1.12'
+  #   environment:
+  #     - 'DOCKER_HOST=tcp://127.0.0.1:2375'
+  #     - 'TAG=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}'
+  #     - DOCKER_LAUNCH_DEBUG=true
+  #   commands:
+  #     - 'docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" quay.io'
+  #     - docker build -t client ./client
+  #     - docker build -t server ./server
+  #     - 'docker tag client quay.io/ipedrazas/events-web:latest'
+  #     - 'docker tag client quay.io/ipedrazas/events-web:${TAG}'
+  #     - 'docker tag server quay.io/ipedrazas/events-api:latest'
+  #     - docker push quay.io/ipedrazas/events-web
+  #     # - docker push quay.io/ipedrazas/events-api
+  #   volumes:
+  #     - '/var/run/docker.sock:/var/run/docker.sock'
+
   docker:
     environment:
-          - DOCKER_API_VERSION=1.23
-    image: plugins/docker
+          - DOCKER_API_VERSION=1.24
+    image: plugins/docker:1.12
     repo: quay.io/ipedrazas/events-web
     tags: latest
     registry: quay.io
     email: "info@info.com"
     debug: true
+    dockerfile: ./client/Dockerfile
     secrets: [ docker_username, docker_password ]
+  
 
   # tests:
   #   environment:
@@ -18,3 +38,10 @@ pipeline:
   #   commands:
   #     - export
   #     - echo "hi"
+# services:
+#   dind:
+#     image: 'docker:1.12-dind'
+#     privileged: true
+    # command:
+    #   - '-s'
+    #   - overlay
