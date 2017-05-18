@@ -1,6 +1,8 @@
 debug: true
 pipeline:
   docker:
+    environment:
+          - DOCKER_API_VERSION=1.24
     image: plugins/docker
     repo: quay.io/ipedrazas/events-web
     tags: latest
