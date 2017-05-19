@@ -10,7 +10,7 @@ RELEASE = dev
 .PHONY: build push release
 
 build:
-	docker build -t $(NS)/$(REPO):$(VERSION) ./server
+	docker build -t $(NS)/$(REPO):$(VERSION) ./events
 	docker build -t $(NS)/$(REPOPROXY):$(VERSION) ./client
 	docker build -t $(NS)/$(REPO_MIGRATION):$(VERSION) ./jobs
 

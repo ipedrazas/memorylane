@@ -1,6 +1,6 @@
 debug: true
 pipeline:
-  docker:
+  docker-web:
     environment:
           - DOCKER_API_VERSION=1.24
     image: plugins/docker:1.12
@@ -12,4 +12,18 @@ pipeline:
     email: "info@info.com"
     debug: true
     dockerfile: ./client/Dockerfile
+    secrets: [ docker_username, docker_password ]
+
+  docker-api:
+    environment:
+          - DOCKER_API_VERSION=1.24
+    image: plugins/docker:1.12
+    repo: quay.io/ipedrazas/events-api
+    tags: 
+      - latest
+      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    registry: quay.io
+    email: "info@info.com"
+    debug: true
+    dockerfile: ./events/Dockerfile
     secrets: [ docker_username, docker_password ]
