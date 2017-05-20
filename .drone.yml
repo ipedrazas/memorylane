@@ -27,3 +27,13 @@ pipeline:
     debug: true
     dockerfile: ./events/Dockerfile
     secrets: [ docker_username, docker_password ]
+  
+  slack_success:
+    image: plugins/slack
+    channel: deploys
+    username: kubot
+    template: >
+      {{ build.author }} finished building {{ repo.owner }}/{{ repo.name }} ({{ build.branch }})
+    when:
+      status: success
+    secrets: [ slack_webhook]
