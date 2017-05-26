@@ -25,5 +25,5 @@ Operability is a very important part of the overall solution.
 * &#10003; Tasks microservice - Go lang - postgres
 * Bookmarks microservice - Clojure
 * Quotes microservice - Rust
-* Postgres database
-* Migration job to create and populate the database
+* &#10003; Postgres database
+* &#10003; Migration job to create and populate the database
