@@ -20,9 +20,9 @@ Operability is a very important part of the overall solution.
 
 ## Components
 
-* frontend - Javascript 
-* Events microservice - Python
-* Tasks microservice - Go lang
+* &#10003; frontend - Javascript 
+* &#10003; Events microservice - Python - postgres
+* &#10003; Tasks microservice - Go lang - postgres
 * Bookmarks microservice - Clojure
 * Quotes microservice - Rust
 * Postgres database
